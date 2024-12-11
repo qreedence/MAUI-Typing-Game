@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Shell.NavBarIsVisible="False"
+             x:Class="MAUIEden.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25"
+            VerticalOptions="Center">
+
+            <!--Start Screen-->
+            <VerticalStackLayout IsVisible="{Binding UiManager.ShowStartScreen}">
+                <Image Aspect="AspectFill"
+                       Source="wordtype.png"
+                       Margin="0, 0, 0, 40"/>
+                <Picker x:Name="LanguagePicker"
+                        Title="Select language"
+                        ItemsSource="{Binding Languages}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedLanguage}">
+                </Picker>
+                <Button  x:Name="StartGameBtn"
+                        Text="Start Game" 
+                        Command="{Binding StartGameCommand}"
+                        HorizontalOptions="Fill" />
+            </VerticalStackLayout>
+
+            <!--Game Screen-->
+            <VerticalStackLayout IsVisible="{Binding UiManager.GameIsActive}">
+                <HorizontalStackLayout HorizontalOptions="Fill" Spacing="170">
+                    <HorizontalStackLayout HorizontalOptions="StartAndExpand">
+                        <Label FontSize="Large" 
+                               Text="Points: ">
+                        </Label>
+                        <Label FontSize="Large"
+                               FontAttributes="Bold"
+                               Text="{Binding GameState.CurrentPoints}">
+                        </Label>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout HorizontalOptions="End">
+                        <Label FontSize="Large" 
+                               Text="Time: ">
+                        </Label>
+                        <Label FontSize="Large"
+                               FontAttributes="Bold"
+                               Text="{Binding GameState.TimeRemaining}">
+                        </Label>
+                    </HorizontalStackLayout>
+                </HorizontalStackLayout>
+                <Label HorizontalOptions="Center"
+                       Margin="0, 260, 0, 40"
+                       FontSize="42"
+                       Text="{Binding GameState.CurrentWord}"></Label>
+                <Entry x:Name="TypingEntry"
+                       Placeholder="Type here"
+                       FontFamily="PassionOne"
+                       FontSize="24"
+                       Text="{Binding GameState.CurrentlyTypingWord}"></Entry>
+                <HorizontalStackLayout HorizontalOptions="Center"
+                                       Margin="0, 10, 0, 120"
+                                       Spacing="10">
+                    <Button Text="Clear"
+                            Command="{Binding ClearCommand}"
+                            WidthRequest="170"></Button>
+                    <Button Text="Skip"
+                            Command="{Binding SkipCurrentWordCommand}"
+                            WidthRequest="170"></Button>
+                </HorizontalStackLayout>
+                <Button x:Name="EndGameBtn"
+                    Text="End Game" 
+                    FontAttributes="Bold"
+                    Command="{Binding EndGameCommand}"
+                    HorizontalOptions="Fill"
+                    BackgroundColor="IndianRed"
+                    Margin="0,120,0,60"/>
+            </VerticalStackLayout>
+
+            <!--End Screen-->
+            <VerticalStackLayout IsVisible="{Binding UiManager.ShowEndScreen}">
+                <Image Aspect="AspectFill"
+                       Source="gameover.png"
+                       Margin="0, 0, 0, 40"/>
+                <VerticalStackLayout Margin="0, 0, 0, 40">
+                    <HorizontalStackLayout>
+                        <Label FontSize="Large" Text="Points: "></Label>
+                        <Label FontSize="Large"
+                           FontAttributes="Bold"
+                           Text="{Binding GameState.CurrentPoints}"></Label>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout>
+                        <Label FontSize="Large" Text="Longest word: "></Label>
+                        <Label FontSize="Large"
+                           FontAttributes="Bold"
+                           Text="{Binding GameState.LongestWord}"></Label>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+                <Button x:Name="BackToHomeBtn"
+                        Text="Go Back" 
+                        Command="{Binding GoHomeCommand}"
+                        HorizontalOptions="Fill" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
