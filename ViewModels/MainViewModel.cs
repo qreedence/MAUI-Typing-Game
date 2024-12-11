@@ -14,15 +14,7 @@ namespace MAUIEden.ViewModels
         [ObservableProperty] UIManager uiManager;
 
         [ObservableProperty] Language selectedLanguage;
-        [ObservableProperty] ObservableCollection<Language> languages = new ObservableCollection<Language>
-        {
-            new Language{Code = "en", Name = "🇬🇧 English"},
-            new Language{Code = "es", Name = "🇪🇸 Spanish"},
-            new Language{Code = "it", Name = "🇮🇹 Italian"},
-            new Language{Code = "de", Name = "🇩🇪 German"},
-            new Language{Code = "fr", Name = "🇫🇷 French"},
-            new Language{Code = "zh", Name = "🇨🇳 Chinese"}
-        };
+        [ObservableProperty] ObservableCollection<Language> languages = Constants.Languages.LanguagesList;
 
         public MainViewModel(GameState gameState, UIManager uiManager)
         {
