@@ -30,24 +30,17 @@ namespace MAUIEden.ViewModels
             {
                 SelectedLanguage = Languages.FirstOrDefault();
             }
-
             UiManager.GoToGameScreen();
             await GameState.StartGame(SelectedLanguage.Code);
             EndGame();
         }
 
         [RelayCommand]
-        void Clear()
-        {
-            GameState.Clear();
-        }
+        void Clear() => GameState.Clear();
 
         [RelayCommand]
-        void SkipCurrentWord()
-        {
-            GameState.SkipCurrentWord();
-        }
-
+        void SkipCurrentWord() => GameState.SkipCurrentWord();
+        
         [RelayCommand]
         void EndGame()
         {
