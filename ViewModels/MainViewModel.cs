@@ -14,15 +14,7 @@ namespace MAUIEden.ViewModels
         [ObservableProperty] UIManager uiManager;
 
         [ObservableProperty] Language selectedLanguage;
-        [ObservableProperty] ObservableCollection<Language> languages = new ObservableCollection<Language>
-        {
-            new Language{Code = "en", Name = "🇬🇧 English"},
-            new Language{Code = "es", Name = "🇪🇸 Spanish"},
-            new Language{Code = "it", Name = "🇮🇹 Italian"},
-            new Language{Code = "de", Name = "🇩🇪 German"},
-            new Language{Code = "fr", Name = "🇫🇷 French"},
-            new Language{Code = "zh", Name = "🇨🇳 Chinese"}
-        };
+        [ObservableProperty] ObservableCollection<Language> languages = Constants.Languages.LanguagesList;
 
         public MainViewModel(GameState gameState, UIManager uiManager)
         {
@@ -38,24 +30,17 @@ namespace MAUIEden.ViewModels
             {
                 SelectedLanguage = Languages.FirstOrDefault();
             }
-
             UiManager.GoToGameScreen();
             await GameState.StartGame(SelectedLanguage.Code);
             EndGame();
         }
 
         [RelayCommand]
-        void Clear()
-        {
-            GameState.Clear();
-        }
+        void Clear() => GameState.Clear();
 
         [RelayCommand]
-        void SkipCurrentWord()
-        {
-            GameState.SkipCurrentWord();
-        }
-
+        void SkipCurrentWord() => GameState.SkipCurrentWord();
+        
         [RelayCommand]
         void EndGame()
         {
