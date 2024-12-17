@@ -12,6 +12,7 @@ namespace MAUIEden.Utilities
         private readonly RandomWordService _randomWordService;
         private CancellationTokenSource _cancellationTokenSource;
         private readonly Random _random = new Random();
+        private GameResults gameResults = new GameResults();
 
         [ObservableProperty] string currentWord = "";
         [ObservableProperty] string currentlyTypingWord = "";
@@ -28,13 +29,11 @@ namespace MAUIEden.Utilities
         public async Task StartGame(string language)
         {
             InitializeGameState();
-
             var newWords = await _randomWordService.GetRandomWords(language, 400);
             foreach (string word in newWords)
             {
                 Words.Add(word);
             }
-
             await GameLoop(_cancellationTokenSource.Token);
         }
 
@@ -59,14 +58,8 @@ namespace MAUIEden.Utilities
                 
                 var waitForCorrectWord = WaitForCorrectWord(cancellationToken);
                 await Task.WhenAny(countdown, waitForCorrectWord);
-
-                if (waitForCorrectWord.IsCompleted)
-                {
-                    Words.Remove(CurrentWord);
-                    CurrentlyTypingWord = "";
-
-                }
             }
+            EndGame();
         }
 
         private async Task CountDown(CancellationToken cancellationToken)
@@ -99,10 +92,21 @@ namespace MAUIEden.Utilities
                 {
                     LongestWord = CurrentWord;
                 }
+                SkipCurrentWord();
             }
         }
 
-        public void EndGame() => TimeRemaining = 0;
+        public async void EndGame() 
+        { 
+            TimeRemaining = 0;
+            gameResults.Points = CurrentPoints;
+            gameResults.LongestWord = LongestWord;
+            await Shell.Current.GoToAsync($"{nameof(EndScreenPage)}",
+                true,
+                new Dictionary<string, object> {
+                    { "GameResults", gameResults }
+                });
+        }
 
         private void InitializeGameState()
         {
