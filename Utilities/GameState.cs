@@ -28,13 +28,11 @@ namespace MAUIEden.Utilities
         public async Task StartGame(string language)
         {
             InitializeGameState();
-
             var newWords = await _randomWordService.GetRandomWords(language, 400);
             foreach (string word in newWords)
             {
                 Words.Add(word);
             }
-
             await GameLoop(_cancellationTokenSource.Token);
         }
 
@@ -59,13 +57,6 @@ namespace MAUIEden.Utilities
                 
                 var waitForCorrectWord = WaitForCorrectWord(cancellationToken);
                 await Task.WhenAny(countdown, waitForCorrectWord);
-
-                if (waitForCorrectWord.IsCompleted)
-                {
-                    Words.Remove(CurrentWord);
-                    CurrentlyTypingWord = "";
-
-                }
             }
         }
 
@@ -99,6 +90,7 @@ namespace MAUIEden.Utilities
                 {
                     LongestWord = CurrentWord;
                 }
+                SkipCurrentWord();
             }
         }
 
