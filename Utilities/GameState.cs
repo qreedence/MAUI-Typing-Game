@@ -62,13 +62,9 @@ namespace MAUIEden.Utilities
 
                 if (waitForCorrectWord.IsCompleted)
                 {
-                    if (CurrentWord.Length > LongestWord.Length)
-                    {
-                        LongestWord = CurrentWord;
-                    }
                     Words.Remove(CurrentWord);
                     CurrentlyTypingWord = "";
-                    CurrentPoints++;
+
                 }
             }
         }
@@ -94,6 +90,14 @@ namespace MAUIEden.Utilities
                 if (cancellationToken.IsCancellationRequested)
                 {
                     break;
+                }
+            }
+            if (CurrentlyTypingWord == CurrentWord)
+            {
+                CurrentPoints++;
+                if (CurrentWord.Length > LongestWord.Length)
+                {
+                    LongestWord = CurrentWord;
                 }
             }
         }
