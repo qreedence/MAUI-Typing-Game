@@ -12,6 +12,7 @@ namespace MAUIEden.Utilities
         private readonly RandomWordService _randomWordService;
         private CancellationTokenSource _cancellationTokenSource;
         private readonly Random _random = new Random();
+        private GameResults gameResults = new GameResults();
 
         [ObservableProperty] string currentWord = "";
         [ObservableProperty] string currentlyTypingWord = "";
@@ -58,6 +59,7 @@ namespace MAUIEden.Utilities
                 var waitForCorrectWord = WaitForCorrectWord(cancellationToken);
                 await Task.WhenAny(countdown, waitForCorrectWord);
             }
+            EndGame();
         }
 
         private async Task CountDown(CancellationToken cancellationToken)
@@ -94,7 +96,17 @@ namespace MAUIEden.Utilities
             }
         }
 
-        public void EndGame() => TimeRemaining = 0;
+        public async void EndGame() 
+        { 
+            TimeRemaining = 0;
+            gameResults.Points = CurrentPoints;
+            gameResults.LongestWord = LongestWord;
+            await Shell.Current.GoToAsync($"{nameof(EndScreenPage)}",
+                true,
+                new Dictionary<string, object> {
+                    { "GameResults", gameResults }
+                });
+        }
 
         private void InitializeGameState()
         {

@@ -21,10 +21,15 @@ namespace MAUIEden
                 });
 
             builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<GamePage>();
+            builder.Services.AddTransient<EndScreenPage>();
+
             builder.Services.AddTransient<MainViewModel>();
+            builder.Services.AddTransient<GameViewModel>();
+            builder.Services.AddTransient<EndScreenViewModel>();
+
             builder.Services.AddTransient<RandomWordService>();
             builder.Services.AddTransient<GameState>();
-            builder.Services.AddTransient<UIManager>();
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
